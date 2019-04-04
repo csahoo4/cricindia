@@ -1,0 +1,21 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Chiranjeeb Sahoo",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.3",
+    "fast-xml-parser": "^3.11.1",
+    "request": "^2.87.0",
+    "tabletojson": "^0.9.8",
+    "unescape": "^1.0.1",
+    "xmljson": "^0.2.0"
+  }
+}
