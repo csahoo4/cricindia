@@ -5,199 +5,244 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>CricIndia</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="img.png">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="score.js"></script>
 </head>
-<script src="jquery-3.3.1.min.js"></script>
-<script src="score.js"></script>
+<body id="j">
 
-<body>
-    <div class="text-center"><img src="img.png" class="img-fluid" height="100" width="70">
-        <h1 id="mi">CRICINDIA</h1>
-        <br>
+<nav id='nav' class="navbar navbar-expand-lg navbar-light bg-primary"></nav>
+<br>
+<div class="container">
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner" id="news">
+
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
-    <p id="ma" class="font-italic container rounded-bottom shadow-lg p-3 mb-5 bg-success rounded">Get information about Players from the Indian Cricket Team. All the current Indian Team Players are included. Along with
-        this enjoy matches that are currently happening around the world, watch live scores of those matches anytime you want,
-        not only scores of
-        <a href="https://en.wikipedia.org/wiki/India_national_cricket_team" target="_blank">Indian Cricket Team</a> but watch scores from domestic tournaments as well that are happening around the world. </p>
-    <p class="font-weight-bold container rounded-bottom shadow-lg p-3 mb-5 bg-danger rounded">Note:- Type a Player's name and click the Basic Bio/Batting and Fielding Statistics/Bowling Statistics button to get
-        information about your favourite Indian Player</p>
-    <div class="container" id="i">
-        <!--<input type="text" placeholder="Search here.." id="task">&nbsp;&nbsp;-->
-        <form autocomplete="off">
-            <div class="autocomplete" style="width:300px;">
-                <input id="myInput" type="text" name="myCountry" placeholder="Search here..">
+</div>
+<br>
+<p id="ma" class="font-italic container rounded-bottom shadow-lg p-3 mb-5 bg-success rounded">Get information about
+    Players from the Indian Cricket Team. All the current Indian Team Players are included. Along with
+    this, enjoy matches that are currently happening around the world, watch live score of those matches anytime
+    you want,
+    not only score of
+    <a href="https://en.wikipedia.org/wiki/India_national_cricket_team" target="_blank">Indian Cricket</a> Team's
+    matches but
+    watch live score from domestic tournaments as well that are happening around <span id="ch"></span>the world. </p>
+
+<div class="container" id="i">
+    <form autocomplete="off">
+        <div class="autocomplete" style="width:300px;">
+            <input id="myInput" type="text" name="myCountry" placeholder="Search here..">
+        </div>
+    </form>
+    <button type="button" id="btn4" class="btn btn-info btn-sm">Clear All</button>
+    <br>
+    <br>
+    <button type="button" id="btn5" class="btn btn-info btn-lg">News</button>
+    <br>
+    <img src="4.gif" id="roll" height="30" width="30" style="display:none">
+    <p id="e" class="text-monospace">
+    <div class="container">
+        <div id="c" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner" id="ne">
+
             </div>
-        </form>
-        <button type="button" id="btn4" class="btn btn-info btn-sm">Clear All</button>
-        <br>
-        <br>
-        <button type="button" id="btn" class="btn btn-info btn-lg">Basic Bio</button>
-        <br><span id="a"></span>
-        <img src="4.gif" id="img" height="30" width="30" style="display:none">
-        <p id="tb" class="text-monospace"></p>
-        <button type="button" id="btn3" class="btn btn-info btn-lg">Batting and Fielding Statistics</button>
-        <br><span id="b"></span>
-        <img src="4.gif" id="img1" height="50" width="50" style="display:none">
-        <p id="t1" class="text-monospace"></p>
-        <button type="button" id="btn2" class="btn btn-info btn-lg">Bowling Statistics</button>
-        <br><span id="c"></span>
-        <img src="4.gif" id="img2" height="50" width="50" style="display:none">
-        <p id="t" class="text-monospace"></p>
+           <span id="pn"></span>
+        </div>
     </div>
+    </p>
+    <button type="button" id="btn" class="btn btn-info btn-lg">Basic Bio</button>
     <br>
-    <ul id="list" class="container border rounded border-danger list-group list-group-flush">
-    </ul>
+    <img src="4.gif" id="img" height="30" width="30" style="display:none">
+    <p id="tb" class="text-monospace"></p>
+    <button type="button" id="btn3" class="btn btn-info btn-lg">Batting and Fielding Statistics</button>
     <br>
-    <p class="font-weight-bold container rounded-bottom shadow-lg p-3 mb-5 bg-primary rounded">Note:- (*) here represents that team is currently playing or was playing before the match finished. If there is no (*) mark on either team that means that match is an upcoming match.</p>
-    <script>
-        function autocomplete(inp, arr) {
-            /*the autocomplete function takes two arguments,
-            the text field element and an array of possible autocompleted values:*/
-            var currentFocus;
-            /*execute a function when someone writes in the text field:*/
-            inp.addEventListener("input", function(e) {
-                var a, b, i, val = this.value;
-                /*close any already open lists of autocompleted values*/
-                closeAllLists();
-                if (!val) { return false;}
-                currentFocus = -1;
-                /*create a DIV element that will contain the items (values):*/
-                a = document.createElement("DIV");
-                a.setAttribute("id", this.id + "autocomplete-list");
-                a.setAttribute("class", "autocomplete-items");
-                /*append the DIV element as a child of the autocomplete container:*/
-                this.parentNode.appendChild(a);
-                /*for each item in the array...*/
-                for (i = 0; i < arr.length; i++) {
-                    /*check if the item starts with the same letters as the text field value:*/
-                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-                        /*create a DIV element for each matching element:*/
-                        b = document.createElement("DIV");
-                        /*make the matching letters bold:*/
-                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-                        b.innerHTML += arr[i].substr(val.length);
-                        /*insert a input field that will hold the current array item's value:*/
-                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                        /*execute a function when someone clicks on the item value (DIV element):*/
-                        b.addEventListener("click", function(e) {
-                            /*insert the value for the autocomplete text field:*/
-                            inp.value = this.getElementsByTagName("input")[0].value;
-                            /*close the list of autocompleted values,
-                            (or any other open lists of autocompleted values:*/
-                            closeAllLists();
-                        });
-                        a.appendChild(b);
-                    }
-                }
-            });
-            /*execute a function presses a key on the keyboard:*/
-            inp.addEventListener("keydown", function(e) {
-                var x = document.getElementById(this.id + "autocomplete-list");
-                if (x) x = x.getElementsByTagName("div");
-                if (e.keyCode == 40) {
-                    /*If the arrow DOWN key is pressed,
-                    increase the currentFocus variable:*/
-                    currentFocus++;
-                    /*and and make the current item more visible:*/
-                    addActive(x);
-                } else if (e.keyCode == 38) { //up
-                    /*If the arrow UP key is pressed,
-                    decrease the currentFocus variable:*/
-                    currentFocus--;
-                    /*and and make the current item more visible:*/
-                    addActive(x);
-                } else if (e.keyCode == 13) {
-                    /*If the ENTER key is pressed, prevent the form from being submitted,*/
-                    e.preventDefault();
-                    if (currentFocus > -1) {
-                        /*and simulate a click on the "active" item:*/
-                        if (x) x[currentFocus].click();
-                    }
-                }
-            });
-            function addActive(x) {
-                /*a function to classify an item as "active":*/
-                if (!x) return false;
-                /*start by removing the "active" class on all items:*/
-                removeActive(x);
-                if (currentFocus >= x.length) currentFocus = 0;
-                if (currentFocus < 0) currentFocus = (x.length - 1);
-                /*add class "autocomplete-active":*/
-                x[currentFocus].classList.add("autocomplete-active");
+    <img src="4.gif" id="img1" height="50" width="50" style="display:none">
+    <p id="t1" class="text-monospace"></p>
+    <button type="button" id="btn2" class="btn btn-info btn-lg">Bowling Statistics</button>
+    <br>
+    <img src="4.gif" id="img2" height="50" width="50" style="display:none">
+    <p id='t' class="text-monospace"></p>
+</div>
+<br>
+<div id="score" class="container-fluid"></div>
+<br>
+<p class="font-weight-bold container rounded-bottom shadow-lg p-3 mb-5 bg-primary rounded">Note:- (*) here
+    represents that team is currently playing or was playing before the match got over. If there is no (*) mark on
+    either team that means that match is an upcoming match.</p>
+<script>
+    function autocomplete(inp, arr) {
+        /*the autocomplete function takes two arguments,
+        the text field element and an array of possible autocompleted values:*/
+        var currentFocus;
+        /*execute a function when someone writes in the text field:*/
+        inp.addEventListener("input", function (e) {
+            var a, b, i, val = this.value;
+            /*close any already open lists of autocompleted values*/
+            closeAllLists();
+            if (!val) {
+                return false;
             }
-            function removeActive(x) {
-                /*a function to remove the "active" class from all autocomplete items:*/
-                for (var i = 0; i < x.length; i++) {
-                    x[i].classList.remove("autocomplete-active");
+            currentFocus = -1;
+            /*create a DIV element that will contain the items (values):*/
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            /*append the DIV element as a child of the autocomplete container:*/
+            this.parentNode.appendChild(a);
+            /*for each item in the array...*/
+            for (i = 0; i < arr.length; i++) {
+                /*check if the item starts with the same letters as the text field value:*/
+                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                    /*create a DIV element for each matching element:*/
+                    b = document.createElement("DIV");
+                    /*make the matching letters bold:*/
+                    b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                    b.innerHTML += arr[i].substr(val.length);
+                    /*insert a input field that will hold the current array item's value:*/
+                    b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                    /*execute a function when someone clicks on the item value (DIV element):*/
+                    b.addEventListener("click", function (e) {
+                        /*insert the value for the autocomplete text field:*/
+                        inp.value = this.getElementsByTagName("input")[0].value;
+                        /*close the list of autocompleted values,
+                        (or any other open lists of autocompleted values:*/
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
                 }
             }
-            function closeAllLists(elmnt) {
-                /*close all autocomplete lists in the document,
-                except the one passed as an argument:*/
-                var x = document.getElementsByClassName("autocomplete-items");
-                for (var i = 0; i < x.length; i++) {
-                    if (elmnt != x[i] && elmnt != inp) {
-                        x[i].parentNode.removeChild(x[i]);
-                    }
+        });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function (e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+                /*If the arrow DOWN key is pressed,
+                increase the currentFocus variable:*/
+                currentFocus++;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 38) { //up
+                /*If the arrow UP key is pressed,
+                decrease the currentFocus variable:*/
+                currentFocus--;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 13) {
+                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                e.preventDefault();
+                if (currentFocus > -1) {
+                    /*and simulate a click on the "active" item:*/
+                    if (x) x[currentFocus].click();
                 }
             }
-            /*execute a function when someone clicks in the document:*/
-            document.addEventListener("click", function (e) {
-                closeAllLists(e.target);
-            });
+        });
+
+        function addActive(x) {
+            /*a function to classify an item as "active":*/
+            if (!x) return false;
+            /*start by removing the "active" class on all items:*/
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            /*add class "autocomplete-active":*/
+            x[currentFocus].classList.add("autocomplete-active");
         }
 
-        var players = ['msdhoni',
-            'vkohli',
-            'rsharma',
-            'sdhawan',
-            'klrahul',
-            'mvijay',
-            'cpujara',
-            'arahane',
-            'dkarthik',
-            'rashwin',
-            'rjadeja',
-            'kyadav',
-            'hpandya',
-            'wsaha',
-            'isharma',
-            'uyadav',
-            'jbumrah',
-            'bkumar' ,
-            'sthakur',
-            'knair',
-            'mshami',
-            'rpant',
-            'ychahal',
-            'mpandey',
-            'apatel',
-            'msiraj',
-            'msharma',
-            'skaul',
-            'sraina',
-            'wsundar',
-            'amishra',
-            'vshankar',
-            'junadkat',
-            'siyer',
-            'dchahar',
-            'ggambhir',
-            'arayudu',
-            'ysingh',
-            'hsingh',
-            'ypathan',
-            'ipathan',
-            'ruthappa',
-            'pojha',
-            'vkumar'
-        ];
-        /*initiate the autocomplete function on the "myInput" element, and pass along the players array as possible autocomplete values:*/
-        autocomplete(document.getElementById("myInput"), players);
-    </script>
+        function removeActive(x) {
+            /*a function to remove the "active" class from all autocomplete items:*/
+            for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+            }
+        }
+
+        function closeAllLists(elmnt) {
+            /*close all autocomplete lists in the document,
+            except the one passed as an argument:*/
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+    }
+
+    var players = [
+        'MS_Dhoni',
+        'Virat_Kohli',
+        'Rohit_Sharma',
+        'Shikhar_Dhawan',
+        'KL_Rahul',
+        'Murli_Vijay',
+        'Cheteshwar_Pujara',
+        'Ajinkya_Rahane',
+        'Dinesh_Karthik',
+        'Ravichandran_Ashwin',
+        'Ravindra_Jadeja',
+        'Kedar_Jadhav',
+        'Kuldeep_Yadav',
+        'Hardik_Pandya',
+        'Wriddhiman_Saha',
+        'Ishant_Sharma',
+        'Umesh_Yadav',
+        'Jasprit_Bumrah',
+        'Bhuvneshwar_Kumar',
+        'Shardul_Thakur',
+        'Karun_Nair',
+        'Mohammed_Shami',
+        'Rishabh_Pant',
+        'Yuzvendra_Chahal',
+        'Manish_Pandey',
+        'Axar_Patel',
+        'Mohammed_Siraj',
+        'Mohit_Sharma',
+        'Siddarth_Kaul',
+        'Suresh_Raina',
+        'Washington_Sundar',
+        'Amit_Mishra',
+        'Vijay_Shankar',
+        'Jaydev_Unadkat',
+        'Shreyas_Iyer',
+        'Deepak_Chahar',
+        'Ambati_Rayudu',
+        'Yuvraj_Singh',
+        'Harbhajan_Singh',
+        'Yusuf_Pathan',
+        'Irfan_Pathan',
+        'Robin_Uthappa',
+        'Pragyan_Ojha',
+        'Vinay_Kumar'
+    ];
+    /*initiate the autocomplete function on the "myInput" element, and pass along the players array as possible autocomplete values:*/
+    autocomplete(document.getElementById("myInput"), players);
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

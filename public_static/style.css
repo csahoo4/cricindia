@@ -1,26 +1,36 @@
+.navbar{
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
 #i{
     text-align: center;
 }
+#t1{
+    color: aliceblue;
+}
+#t{
+    color: aliceblue;
+}
 #tb{
-    text-align: left
+    text-align: left;
+    color: aliceblue;
 }
 #img{
     text-align: center
 }
-#l{
+.l{
     color: blue;
 }
 #ma{
     color: antiquewhite;
 }
 body{
+    background-color: black;
     margin-top: 6px;
     margin-bottom:10px; 
 }
-#mi{
-    text-align: center;
-    font-size: 50pt;
-}
+
 #btn1{
     height:40px;
      width:170px;

@@ -1,6 +1,59 @@
 $(function () {
-    var list = $('#list');
-    var btn1 = $("#btn1");
+    var nav = $('#nav');
+    nav.append(`<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+            aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <span class="navbar-brand" href="#"><img src="img.png" width="30" height="30" class="d-inline-block align-top"
+                                             alt="Couldn't load"></span>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="#j"><b>Updates</b></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#ch"><b>Player Search</b></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#score"><b>Live Score</b></a>
+            </li>
+        </ul>
+    </div>`);
+    (() => {
+        $.get('/news', (data) => {
+            var i = 0;
+            data.forEach((item) => {
+                if (i == 0) {
+                    news.append(`<div class="carousel-item active">
+                                 <div class="text-center bg-danger">
+                                  <img class="img-fluid" src=${item.cI} alt="Couldn't Load">
+                                  <figcaption><b>${item.title}</b></figcaption>
+                                 <figcaption><i>${item.desp}</i></figcaption>
+                                 <figcaption>${item.pD}</figcaption>
+                                  </div>
+                                 </div>`);
+                    i = 1;
+                } else {
+                    news.append(` <div class="carousel-item">
+                                  <div class="text-center bg-danger">
+                                  <img class="img-fluid" src=${item.cI} alt="Couldn't Load">
+                                  <figcaption><b>${item.title}</b></figcaption>
+                                  <figcaption><i>${item.desp}</i></figcaption>
+                                  <figcaption>${item.pD}</figcaption>
+                                  </div>
+                                  </div>`);
+                }
+            });
+        });
+    })();
+    var pn = $('#pn');
+    var btn5 = $('#btn5');
+    var ne = $('#ne');
+    var e = $('#e');
+    var roll = $('#roll');
+    var score = $('#score');
+    var news = $('#news');
     var a = $('#a');
     var b = $('#b');
     var c = $('#c');
@@ -15,20 +68,25 @@ $(function () {
     var btn4 = $('#btn4');
     var t1 = $('#t1');
     var btn3 = $('#btn3');
-    var ch1 = 1, ch2 = 1, ch3 = 1;
     var arr = ['Test Record', 'ODI Record', 'T20I Record', 'First-Class Record', 'List-A Record', 'T20 Record'];
+    var i = 0;
 
     function refreshList(data) {
-        // $("#list").clear();
-        list.empty();
+        score.empty();
         data.forEach((item) => {
-            list.append(`<li id="l" class="list-group-item">${item}</li>`);
+            i++;
+            score.append(`<div class="card">
+                          <h5 class="card-header l">Match ${i}</h5>
+                          <div class="card-body">
+                          <h5 class="card-title">Live score - ${item.de}</h5>
+                          <p class="card-text">Score summary - ${item.si}</p>
+                          </div>
+                          </div>`);
         })
-        list.append(`<br><span class="text-center"><button type="button" class="btn btn-warning" id="btn1">Refresh Live Score</button></span>`)
+        i = 0;
     }
 
     function bat(data) {
-        tb.empty();
         tb.append(`<br>
                    <table class="table table-hover table-dark table-sm" border="8px">
                    <tr>
@@ -59,17 +117,21 @@ $(function () {
                    <td>Bowling</td>
                    <td>${data[6]}</td>
                    </tr>
-                   </table>`)
+                   </table>
+                   <p class="font-weight-light">
+                   ${data[7]} 
+                   </p>`)
     }
 
     function bowl(data) {
-        t.empty();
         var jb = ['tests', 'ODIs', 'T20Is', 'firstClass', 'listA', 'twenty20'];
         for (i = 0; i < arr.length; i++) {
             if (data.hasOwnProperty(jb[i])) {
                 var item = data[jb[i]];
-                // console.log( item );
-                t.append(`<br><h3>${arr[i]}</h3> <br><table class="table table-hover table-borderless table-striped table-sm" border="8px">
+                t.append(`<br><h3>${arr[i]}</h3>
+                     <br>
+                   <div class="table-responsive">
+                   <table class="table table-hover table-dark table-borderless table-striped table-sm" border="8px">
                    <thead>
                    <tr>
                    <th>Matches </th>
@@ -104,36 +166,37 @@ $(function () {
                    <td>${item[10]}</td>
                    </tr>
                    </tbody>
-                   </table>`)
+                   </table>
+                   </div>`)
             }
         }
     }
 
     function abc(data) {
-        t1.empty();
-        // console.log(data);
         var jb = ['tests', 'ODIs', 'T20Is', 'firstClass', 'listA', "twenty20"];
         for (i = 0; i < jb.length; i++) {
             if (data.hasOwnProperty(jb[i])) {
                 var item = data[jb[i]];
-                // console.log( item );
-                t1.append(`<br><h3>${arr[i]}</h3> <br><table class="table table-hover table-borderless table-striped table-sm" border="8px">
+                t1.append(`<br><h3>${arr[i]}</h3> 
+                            <br>
+                            <div class="table-responsive">
+                   <table class="table table-hover table-dark table-striped table-borderless table-sm" border="8px">
                    <thead>
                    <tr>
-                   <td>Matches </td>
-                   <td>Runs</td>
-                   <td>SR</td>
-                   <td>Balls Faced</td>
-                   <td>Innings</td>
-                   <td>HS</td>
-                   <td>4s</td>
-                   <td>6s</td>
-                   <td>50</td>
-                   <td>100</td>
-                   <td>Average</td>
-                   <td>Not Outs</td>
-                   <td>Catches</td>
-                   <td>Stumpings</td>
+                   <th>Matches </th>
+                   <th>Runs</th>
+                   <th>SR</th>
+                   <th>Balls Faced</th>
+                   <th>Innings</th>
+                   <th>HS</th>
+                   <th>4s</th>
+                   <th>6s</th>
+                   <th>50</th>
+                   <th>100</th>
+                   <th>Average</th>
+                   <th>Not Outs</th>
+                   <th>Catches</th>
+                   <th>Stumpings</th>
                    </tr>
                    </thead>
                    <tbody>
@@ -154,22 +217,23 @@ $(function () {
                    <td>${item.St}</td>
                    </tr>
                    </tbody>
-                   </table>`)
+                   </table>
+                   </div>`)
             }
         }
     }
 
     btn4.click(function () {
+        ne.empty();
         t1.empty();
         t.empty();
         tb.empty();
+        pn.empty();
         task.val('');
-    })
+    });
+
     btn3.click(() => {
-        if (ch1 == 1) {
-            b.append(`<br>`);
-            ch1++;
-        }
+        t1.empty();
         img1.show();
         $.ajax({
             type: 'POST',
@@ -182,14 +246,12 @@ $(function () {
             abc(data);
         })
             .fail(function () {
-                alert("error");
+                alert("Batting Stats can't be retrieved. Reload the page.");
             });
-    })
+    });
+
     btn2.click(() => {
-        if (ch2 == 1) {
-            c.append(`<br>`);
-            ch2++;
-        }
+        t.empty();
         img2.show();
         $.ajax({
             type: 'POST',
@@ -202,28 +264,22 @@ $(function () {
             bowl(data);
         })
             .fail(function () {
-                alert("error");
+                alert("Bowling Stats can't be retrieved. Reload the page.");
             });
-    })
+    });
 
     function lscores() {
         $.get("/liveScores", (data) => {
-            // console.log(data);
             refreshList(data);
         });
     }
 
-    btn1.click(function () {
+    setInterval(function () {
         lscores();
-    })
-    setTimeout(function () {
-        lscores();
-    }, 2000);
+    }, 5000);
+
     btn.click(() => {
-        if (ch3 == 1) {
-            a.append(`<br>`);
-            ch3++;
-        }
+        tb.empty();
         img.show();
         $.ajax({
             type: 'POST',
@@ -236,7 +292,59 @@ $(function () {
             bat(data);
         })
             .fail(function () {
-                alert("error");
+                alert("Basic Bio can't be retrieved. Reload the page.");
             });
-    })
+    });
+
+    function pnews(data) {
+        pn.append(` <a class="carousel-control-prev" href="#c" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#c" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>`);
+        var i = 0;
+        data.forEach((item) => {
+            if (i == 0) {
+                ne.append(`<div class="carousel-item active">
+                                 <div class="text-center bg-warning">
+                                  <img class="img-fluid" src=${item.cI} alt="Couldn't Load">
+                                  <figcaption><b>${item.title}</b></figcaption>
+                                 <figcaption><i>${item.desp}</i></figcaption>
+                                 <figcaption>${item.pD}</figcaption>
+                                  </div>
+                                 </div>`);
+                i = 1;
+            } else {
+                ne.append(` <div class="carousel-item">
+                                  <div class="text-center bg-warning">
+                                  <img class="img-fluid" src=${item.cI} alt="Couldn't Load">
+                                  <figcaption><b>${item.title}</b></figcaption>
+                                  <figcaption><i>${item.desp}</i></figcaption>
+                                  <figcaption>${item.pD}</figcaption>
+                                  </div>
+                                  </div>`);
+            }
+        });
+    }
+
+    btn5.click(() => {
+        ne.empty();
+        roll.show();
+        $.ajax({
+            type: 'POST',
+            url: '/playernews',
+            data: {task: task.val()},
+            success: () => {
+                roll.hide();
+            }
+        }).done(function (data) {
+            pnews(data);
+        })
+            .fail(function () {
+                alert("News about player can't be retrieved. Reload the page.");
+            });
+    });
 })

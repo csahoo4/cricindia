@@ -5,63 +5,62 @@ var cheerio = require('cheerio');
 var tabletojson = require('tabletojson');
 var fastXmlParser = require('fast-xml-parser');
 var app = express();
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 var names = {
-    msdhoni: 28081,
-    vkohli: 253802,
-    rsharma: 34102,
-    sdhawan: 28235,
-    klrahul: 422108,
-    mvijay: 237095,
-    cpujara: 32540,
-    arahane: 277916,
-    dkarthik: 30045,
-    rashwin: 26421,
-    rjadeja: 234675,
-    kyadav: 559235,
-    hpandya: 625371,
-    wsaha: 279810,
-    isharma: 236779,
-    uyadav: 376116,
-    jbumrah: 625383,
-    bkumar:326016 ,
-    sthakur: 475281,
-    knair: 398439,
-    mshami: 481896,
-    rpant: 931581,
-    ychahal: 430246,
-    mpandey: 290630,
-    apatel: 554691,
-    msiraj: 940973,
-    msharma: 537119,
-    skaul: 326017,
-    sraina: 33335,
-    wsundar: 719715,
-    amishra:31107,
-    vshankar: 477021,
-    junadkat: 390484,
-    siyer: 642519,
-    dchahar: 447261,
-    ggambhir: 28763,
-    arayudu: 33141,
-    ysingh: 36084,
-    hsingh: 29264,
-    ypathan: 32498,
-    ipathan: 32685,
-    ruthappa: 35582,
-    pojha: 32130,
-    vkumar: 35731
+    MS_Dhoni: 28081,
+    Virat_Kohli: 253802,
+    Rohit_Sharma: 34102,
+    Shikhar_Dhawan: 28235,
+    KL_Rahul: 422108,
+    Murli_Vijay: 237095,
+    Cheteshwar_Pujara: 32540,
+    Ajinkya_Rahane: 277916,
+    Dinesh_Karthik: 30045,
+    Ravichandran_Ashwin: 26421,
+    Ravindra_Jadeja: 234675,
+    Kedar_Jadhav:290716,
+    Kuldeep_Yadav: 559235,
+    Hardik_Pandya: 625371,
+    Wriddhiman_Saha: 279810,
+    Ishant_Sharma: 236779,
+    Umesh_Yadav: 376116,
+    Jasprit_Bumrah: 625383,
+    Bhuvneshwar_Kumar: 326016,
+    Shardul_Thakur: 475281,
+    Karun_Nair: 398439,
+    Mohammed_Shami: 481896,
+    Rishabh_Pant: 931581,
+    Yuzvendra_Chahal: 430246,
+    Manish_Pandey: 290630,
+    Axar_Patel: 554691,
+    Mohammed_Siraj: 940973,
+    Mohit_Sharma: 537119,
+    Siddarth_Kaul: 326017,
+    Suresh_Raina: 33335,
+    Washington_Sundar: 719715,
+    Amit_Mishra: 31107,
+    Vijay_Shankar: 477021,
+    Jaydev_Unadkat: 390484,
+    Shreyas_Iyer: 642519,
+    Deepak_Chahar: 447261,
+    Ambati_Rayudu: 33141,
+    Yuvraj_Singh: 36084,
+    Harbhajan_Singh: 29264,
+    Yusuf_Pathan: 32498,
+    Irfan_Pathan: 32685,
+    Robin_Uthappa: 35582,
+    Pragyan_Ojha: 32130,
+    Vinay_Kumar: 35731
 }
 var arr;
 app.post('/basicBio', function (req, res) {
-    var item;
 
     var player = req.body.task;
     if (names.hasOwnProperty(player)) {
-        item = names[player];
+        var item = names[player];
     }
-    
+
     var url = 'http://www.espncricinfo.com/ci/content/player/' + item + '.html';
 
     request(url, function (error, response, html) {
@@ -72,7 +71,7 @@ app.post('/basicBio', function (req, res) {
 
             var name;
 
-            var json = { name: "" };
+            var json = {name: ""};
 
             // get player's name
             $('.SubnavSubsection').filter(function () {
@@ -126,9 +125,7 @@ app.post('/basicBio', function (req, res) {
                 }
             }
         }
-        // // send JSON response
-        arr = [json.fullName, json.dob, json.age, json.teams, json.role, json.batting, json.bowling];
-        // console.log(arr)
+        arr = [json.fullName, json.dob, json.age, json.teams, json.role, json.batting, json.bowling, $('.ciPlayerprofiletext1').text()];
         res.send(arr);
     })
 
@@ -212,15 +209,72 @@ app.post('/bowlingStats', function (req, res) {
 });
 
 app.get('/liveScores', function (req, res) {
-    var url = 'http://static.cricinfo.com/rss/livescores.xml';
+    url = 'http://cricscore-api.appspot.com/csa';
     request(url, function (error, response, html) {
-        var jsonObj = fastXmlParser.parse(response.body);
-        var arr = jsonObj.rss.channel.item;
-        for (var i = 0; i < arr.length; i++) {
-            // console.log(arr[i].title);
-            arr[i] = decode(arr[i].title);
+        // console.log(typeof html);
+        if (html.charAt(0) !== "\n") {
+            arr = JSON.parse(html);
+            url = "http://cricscore-api.appspot.com/csa?id=" + arr[0].id;
+            for (var i = 1; i < arr.length; i++) {
+                url += "+" + arr[i].id;
+            }
+            request(url, (error, response, html) => {
+                if (html.charAt(0) !== "\n") {
+                    arr = JSON.parse(html);
+                    res.send(arr);
+                } else {
+                    res.send([{
+                        de: "Hey! Whats up ;). I hope you're enjoying :).",
+                        si: "Sorry for the inconvenience. Can't load the score at this moment. Please try again later."
+                    }]);
+                }
+            });
+        } else {
+            res.send([{
+                de: "Hey! Whats up ;). I hope you're enjoying :).",
+                si: "Sorry for the inconvenience. Can't load the score at this moment. Please try again later."
+            }]);
         }
-        res.send(arr);
+    });
+});
+
+app.get('/news', (req, res) => {
+    request("http://www.espncricinfo.com/rss/content/story/feeds/0.xml", (error, response, html) => {
+        var jsonObj = fastXmlParser.parse(html);
+        var arr = jsonObj.rss.channel.item;
+        var arr2 = [];
+        for (var i = 0; i < arr.length; i++) {
+            arr2.push({
+                title: decode(arr[i].title),
+                desp: decode(arr[i].description),
+                cI: decode(arr[i].coverImages),
+                pD: decode(arr[i].pubDate)
+            });
+        }
+        res.send(arr2);
+    });
+});
+
+app.post('/playernews', (req, res) => {
+    var player = req.body.task;
+    if (names.hasOwnProperty(player)) {
+        var item = names[player];
+    }
+
+    var url = 'http://www.espncricinfo.com/rss/content/story/feeds/' + item + '.rss';
+    request(url, (error, response, html) => {
+        var jsonObj = fastXmlParser.parse(html);
+        var arr = jsonObj.rss.channel.item;
+        var arr2 = [];
+        for (var i = 0; i < arr.length; i++) {
+            arr2.push({
+                title: decode(arr[i].title),
+                desp: decode(arr[i].description),
+                cI: decode(arr[i].coverImages),
+                pD: decode(arr[i].pubDate)
+            });
+        }
+        res.send(arr2);
     });
 });
 
