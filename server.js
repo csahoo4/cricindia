@@ -7,6 +7,7 @@ var fastXmlParser = require('fast-xml-parser');
 var app = express();
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+var port = process.env.PORT || 8081;
 var names = {
     MS_Dhoni: 28081,
     Virat_Kohli: 253802,
@@ -279,8 +280,8 @@ app.post('/playernews', (req, res) => {
 });
 
 app.use("/", express.static(__dirname + "/public_static"));
-app.listen('8001')
+app.listen(port);
 
-console.log('Listening on port 8001');
+console.log('Listening on port '+ port);
 
 exports = module.exports = app;
